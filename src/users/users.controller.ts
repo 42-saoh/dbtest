@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { Users } from './users.entity';
+import { Stat } from './stat.entity';
+import { Block } from './block.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -17,9 +19,28 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param() id: string): Promise<Users> {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id') id : number): Promise<Users> {
+    return this.usersService.findOne(id);
   }
+
+  @Get(':id/stat')
+  async findStat(@Param('id') id: number): Promise<Stat> {
+    return this.usersService.findStat(id);
+  }
+
+  @Get(':id/block')
+  findBlock(@Param('id') id: number): Promise<Block[]> {
+    return this.usersService.findBlock(id);
+  }
+
+  @Post(':id/block')
+  idBlock(@Param('id') id: number, @Body('id') blockid: number): Promise<Block> {
+    return this.usersService.idBlock(id, blockid);
+  }
+  // @Get(':id/block')
+  // async findBlock(@Param('id') id: number): Promise<Block[]> {
+  //   return this.usersService.findBlock(id);
+  // }
 
   @Delete(':id')
   async remove(@Param() id: string): Promise<void> {
