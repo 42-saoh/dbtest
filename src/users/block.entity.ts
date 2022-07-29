@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryColumn, ManyToMany} from 'typeorm';
 import { Users } from './users.entity';
 
 @Entity()
@@ -6,6 +6,7 @@ export class Block {
   @PrimaryColumn()
   id: number;
 
-  @ManyToOne((type) => Users, (users) => users.blocks)
-  users: Users;
+  @ManyToMany(() => Users, users => users.blocks, { nullable: true })
+  users: Users[];
+
 }

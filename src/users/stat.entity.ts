@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Users } from './users.entity';
 
 @Entity()
 export class Stat {
@@ -13,4 +14,7 @@ export class Stat {
 
   @Column({ default: 0 })
   rating: number;
+
+  @OneToOne(() => Users, (users) => users.stat)
+  users: Users;
 }

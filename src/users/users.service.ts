@@ -21,7 +21,6 @@ export class UsersService {
   async create(user : Users): Promise<Users> {
     let stat = new Stat();
     user.stat = stat;
-    user.blocks = [];
     let user_save = await this.usersRepository.save(user);
     let block = new Block();
     block.id = user_save.id;
@@ -38,11 +37,11 @@ export class UsersService {
     return user.stat;
   }
 
-  async idBlock(userid: number, blockid: number): Promise<Block> {
+  async idBlock(userid: number, blockid: number): Promise<Users> {
     let block = await this.blockService.findOne(blockid);
-    let user = await this.findOne(userid);
-    block.users = user;
-    return this.blockService.update(block);
+    let user = await this.usersRepository.findOne({ where: {id:userid}, relations: ["blocks"] });
+    user.blocks.push(block);
+    return this.usersRepository.save(user);
   }
 
   async findBlock(id : number) : Promise<Block[]> {

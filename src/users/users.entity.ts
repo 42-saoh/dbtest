@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Stat } from './stat.entity';
 import { Block } from './block.entity';
 
@@ -16,10 +16,11 @@ export class Users {
   @Column({ default: true })
   isActive: boolean;
 
-  @OneToOne(() => Stat, { cascade: true })
+  @OneToOne(() => Stat, (stat) => stat.users, { cascade: true })
   @JoinColumn()
   stat: Stat;
 
-  @OneToMany((type) => Block, (blocks) => blocks.users)
+  @ManyToMany(() => Block, blocks => blocks.users, { cascade: true, nullable: true })
+  @JoinTable()
   blocks: Block[];
 }

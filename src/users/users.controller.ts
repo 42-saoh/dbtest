@@ -29,18 +29,14 @@ export class UsersController {
   }
 
   @Get(':id/block')
-  findBlock(@Param('id') id: number): Promise<Block[]> {
+  async findBlock(@Param('id') id: number): Promise<Block[]> {
     return this.usersService.findBlock(id);
   }
 
   @Post(':id/block')
-  idBlock(@Param('id') id: number, @Body('id') blockid: number): Promise<Block> {
+  async idBlock(@Param('id') id: number, @Body('id') blockid: number): Promise<Users> {
     return this.usersService.idBlock(id, blockid);
   }
-  // @Get(':id/block')
-  // async findBlock(@Param('id') id: number): Promise<Block[]> {
-  //   return this.usersService.findBlock(id);
-  // }
 
   @Delete(':id')
   async remove(@Param() id: string): Promise<void> {
